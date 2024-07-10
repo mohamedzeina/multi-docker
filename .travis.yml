@@ -12,3 +12,10 @@ after_success:
   - docker build -t toxiczeina/multi-nginx ./nginx
   - docker build -t toxiczeina/multi-server ./server
   - docker build -t toxiczeina/multi-worker ./worker
+  #Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to Docker Hub
+  - docker push toxiczeina/multi-client
+  - docker push toxiczeina/multi-nginx
+  - docker push toxiczeina/multi-server
+  - docker push toxiczeina/multi-worker
