@@ -1,0 +1,14 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t toxiczeina/react-test -f ./client/Dockerfile.dev ./client
+script:
+  - docker run -e CI=true toxiczeina/react-test npm test
+
+after_success:
+  - docker build -t toxiczeina/multi-client ./client
+  - docker build -t toxiczeina/multi-nginx ./nginx
+  - docker build -t toxiczeina/multi-server ./server
+  - docker build -t toxiczeina/multi-worker ./worker
