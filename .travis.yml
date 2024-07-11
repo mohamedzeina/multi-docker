@@ -1,12 +1,9 @@
 sudo: required
-language: generic
-
 services:
   - docker
 
 before_install:
   - docker build -t toxiczeina/react-test -f ./client/Dockerfile.dev ./client
-
 script:
   - docker run -e CI=true toxiczeina/react-test npm test
 
@@ -15,9 +12,9 @@ after_success:
   - docker build -t toxiczeina/multi-nginx ./nginx
   - docker build -t toxiczeina/multi-server ./server
   - docker build -t toxiczeina/multi-worker ./worker
-  # Log in to the docker CLI
+  #Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  # Take those images and push them to docker hub
+  # Take those images and push them to Docker Hub
   - docker push toxiczeina/multi-client
   - docker push toxiczeina/multi-nginx
   - docker push toxiczeina/multi-server
@@ -25,11 +22,11 @@ after_success:
 
 deploy:
   provider: elasticbeanstalk
-  region: 'eu-central-1'
-  app: 'multi-docker'
-  env: 'Multi-docker-env'
-  bucket_name: 'elasticbeanstalk-eu-central-1-535605170958'
-  bucket_path: 'docker-multi'
+  region: eu-central-1
+  app: multi-docker
+  env: Multi-docker-env
+  bucket_name: elasticbeanstalk-eu-central-1-535605170958
+  bucket_path: docker-multi
   on:
     branch: master
   access_key_id: $AWS_ACCESS_KEY
