@@ -36,7 +36,7 @@ const redisClient = redis.createClient({
   port: keys.redisPort,
   retry_strategy: () => 1000,
 });
-const redisPublisher = redisClient.duplicate(); // Duplicated for redis server to listen and publish
+const redisPublisher = redisClient.duplicate();
 
 // Express route handlers
 
@@ -45,9 +45,9 @@ app.get('/', (req, res) => {
 });
 
 app.get('/values/all', async (req, res) => {
-  const values = await pgClient.query('SELECT * from values'); // Get the stored indicies from the postgres database
+  const values = await pgClient.query('SELECT * from values');
 
-  res.send(values.rows); // Send the values back to whoever is making the request
+  res.send(values.rows);
 });
 
 app.get('/values/current', async (req, res) => {
@@ -60,13 +60,12 @@ app.post('/values', async (req, res) => {
   const index = req.body.index;
 
   if (parseInt(index) > 40) {
-    // If index > 40, it would take years to calcualte the fib number
     return res.status(422).send('Index too high');
   }
 
   redisClient.hset('values', index, 'Nothing yet!');
-  redisPublisher.publish('insert', index); // Message to the worker to wake it up to calculate the value for the new index
-  pgClient.query('INSERT INTO values(number) VALUES($1)', [index]); // Take index and store it into the Postgres database
+  redisPublisher.publish('insert', index);
+  pgClient.query('INSERT INTO values(number) VALUES($1)', [index]);
 
   res.send({ working: true });
 });

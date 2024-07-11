@@ -10,7 +10,7 @@ services:
     depends_on:
       - api
       - client
-    restart: always # nginx handles the routing, should be always online no matter what
+    restart: always
     build:
       dockerfile: Dockerfile.dev
       context: ./nginx
@@ -32,14 +32,14 @@ services:
       - PGPASSWORD=postgres_password
       - PGPORT=5432
   client:
+    environment:
+      - WDS_SOCKET_PORT=0
     build:
       dockerfile: Dockerfile.dev
       context: ./client
     volumes:
-      - /app/node_modules #bookmark
-      - ./client:/app #everything in client directory should be shared with app directory
-    environment:
-      - WDS_SOCKET_PORT=0
+      - /home/node/app/node_modules
+      - ./client:/home/node/app
   worker:
     build:
       dockerfile: Dockerfile.dev

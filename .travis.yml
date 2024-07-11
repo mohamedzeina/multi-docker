@@ -1,33 +1,36 @@
 sudo: required
+language: generic
+
 services:
   - docker
 
 before_install:
-  - docker build -t toxiczeina/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t rallycoding/react-test -f ./client/Dockerfile.dev ./client
+
 script:
-  - docker run -e CI=true toxiczeina/react-test npm test
+  - docker run -e CI=true rallycoding/react-test npm test
 
 after_success:
-  - docker build -t toxiczeina/multi-client ./client
-  - docker build -t toxiczeina/multi-nginx ./nginx
-  - docker build -t toxiczeina/multi-server ./server
-  - docker build -t toxiczeina/multi-worker ./worker
-  #Log in to the docker CLI
+  - docker build -t rallycoding/multi-client ./client
+  - docker build -t rallycoding/multi-nginx ./nginx
+  - docker build -t rallycoding/multi-server ./server
+  - docker build -t rallycoding/multi-worker ./worker
+  # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  # Take those images and push them to Docker Hub
-  - docker push toxiczeina/multi-client
-  - docker push toxiczeina/multi-nginx
-  - docker push toxiczeina/multi-server
-  - docker push toxiczeina/multi-worker
+  # Take those images and push them to docker hub
+  - docker push rallycoding/multi-client
+  - docker push rallycoding/multi-nginx
+  - docker push rallycoding/multi-server
+  - docker push rallycoding/multi-worker
 
 deploy:
   provider: elasticbeanstalk
-  region: eu-central-1
-  app: multi-docker
-  env: Multi-docker-env
-  bucket_name: elasticbeanstalk-eu-central-1-535605170958
-  bucket_path: docker-multi
+  region: 'us-east-1'
+  app: 'multi-docker'
+  env: 'Multi-docker-env'
+  bucket_name: 'elasticbeanstalk-eu-central-1-535605170958'
+  bucket_path: 'docker-multi'
   on:
-    branch: master
+    branch: main
   access_key_id: $AWS_ACCESS_KEY
   secret_access_key: $AWS_SECRET_KEY
