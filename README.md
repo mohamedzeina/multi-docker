@@ -27,7 +27,7 @@ Then move into the project's directory:
 ```
 cd multi-docker
 ```
-Then, run the following command:
+Then, build and run the project using the following docker-compose command:
 ```
 docker-compose -f docker-compose-dev.yml up --build
 ```
