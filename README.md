@@ -7,7 +7,7 @@ The application is a multi-container setup designed to calculate Fibonacci numbe
 * Nginx: Manages routing of requests within the application.
 The entered index is stored in a PostgreSQL database. Both the index and its corresponding Fibonacci result are stored in a Redis HashMap.
 
-This application is production-ready for deployment on AWS. Travis CI is configured to run tests on every push to the master branch of the application's git repository. If the tests pass, Travis CI automatically deploys the application to AWS Elastic Beanstalk.
+This application is production-ready for deployment on AWS. Travis CI is configured to run tests on every push to the master branch of the application's git repository. If the tests pass, Travis CI pushes each image to Docker Hub and then automatically deploys the application to AWS Elastic Beanstalk.
 
 For production, AWS services are used instead of local ones:
 
@@ -15,6 +15,15 @@ For production, AWS services are used instead of local ones:
 * AWS Elasticache: Provides the Redis cluster
 
 
-## How To Run Development Server Locally
-
+## How To Build & Run Development Server Locally
+Make sure that you have Docker installed on your local machine   
+First, clone the repo to your local machine:
+```
+https://github.com/mohamedzeina/multi-docker.git
+```
+Then, open up a terminal in the project's directory and run the following command:
+```
+docker-compose -f docker-compose-dev.yml up --build
+```
+Then, open http://localhost:3050 with your browser to see the result
 
