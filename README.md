@@ -14,6 +14,8 @@ For production, AWS services are used instead of local ones:
 * AWS RDS: Hosts the PostgreSQL database   
 * AWS Elasticache: Provides the Redis cluster
 
+Note: After submitting an index, refresh the page to see the newly calculated results
+
 
 ## How To Build & Run Development Server Locally
 Make sure that you have Docker installed on your local machine   
