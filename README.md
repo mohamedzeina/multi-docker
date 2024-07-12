@@ -21,7 +21,7 @@ Note: After submitting an index, refresh the page to see the newly calculated re
 Make sure that you have Docker installed on your local machine   
 First, clone the repo to your local machine:
 ```
-https://github.com/mohamedzeina/multi-docker.git
+git clone https://github.com/mohamedzeina/multi-docker.git
 ```
 Then, open up a terminal in the project's directory and run the following command:
 ```
